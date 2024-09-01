@@ -51,6 +51,7 @@
                                     <include>dev.expx:*</include>
                                     <include>dev.dejvokep.boostedyaml:*</include>
                                     <include>io.tebex.sdk:*</include>
+                                    <include>net.craftingstore.core:*</include>
                                 </includes>
                             </artifactSet>
                         </configuration>
