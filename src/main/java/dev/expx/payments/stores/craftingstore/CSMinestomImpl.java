@@ -13,10 +13,8 @@ import java.util.Objects;
 public class CSMinestomImpl implements CraftingStorePlugin {
     @Override
     public boolean executeDonation(Donation donation) {
-        if(donation.getPlayer().isRequiredOnline()) {
-            if(!MinecraftServer.getConnectionManager().getOnlinePlayerByUsername(donation.getPlayer().getUsername()).isOnline())
-                return false;
-        }
+        if(donation.getPlayer().isRequiredOnline() && !MinecraftServer.getConnectionManager().getOnlinePlayerByUsername(donation.getPlayer().getUsername()).isOnline())
+            return false;
 
         MinecraftServer.getCommandManager().execute(new OPSender(), donation.getCommand());
         return true;
@@ -39,11 +37,12 @@ public class CSMinestomImpl implements CraftingStorePlugin {
 
     @Override
     public String getToken() {
-        if(CraftingStoreHandler.config.getString("api-key") == null || Objects.equals(CraftingStoreHandler.config.getString("api-key"), "NEEDS_FILLING_IN")) {
-            CraftingStoreHandler.config.set("api-key", "NEEDS_FILLING_IN");
+        String apiKey = CraftingStoreHandler.getConfig().getString("api-key");
+        if(apiKey == null || Objects.equals(apiKey, "NEEDS_FILLING_IN")) {
+            CraftingStoreHandler.getConfig().set("api-key", "NEEDS_FILLING_IN");
             throw new IllegalArgumentException("API Key for CRAFTINGSTORE is not valid.");
         }
-        return CraftingStoreHandler.config.getString("api-key");
+        return CraftingStoreHandler.getConfig().getString("api-key");
     }
 
     @Override
