@@ -7,10 +7,25 @@ import net.craftingstore.core.logging.CraftingStoreLogger;
 import net.craftingstore.core.models.donation.Donation;
 import net.minestom.server.MinecraftServer;
 import net.minestom.server.timer.TaskSchedule;
+import org.slf4j.LoggerFactory;
 
 import java.util.Objects;
 
+/**
+ * CraftingStore API implementation
+ */
 public class CSMinestomImpl implements CraftingStorePlugin {
+
+    /**
+     * Don't allow regular initialization
+     * of this class
+     *
+     * @throws UnsupportedOperationException Prevents initialization
+     */
+    public CSMinestomImpl() throws UnsupportedOperationException {
+        throw new UnsupportedOperationException();
+    }
+
     @Override
     public boolean executeDonation(Donation donation) {
         if(donation.getPlayer().isRequiredOnline() && !Objects.requireNonNull(MinecraftServer.getConnectionManager().getOnlinePlayerByUsername(donation.getPlayer().getUsername())).isOnline())
@@ -22,7 +37,7 @@ public class CSMinestomImpl implements CraftingStorePlugin {
 
     @Override
     public CraftingStoreLogger getLogger() {
-        return null;
+        return (CraftingStoreLogger) LoggerFactory.getLogger(CSMinestomImpl.class);
     }
 
     @Override

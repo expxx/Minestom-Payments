@@ -10,8 +10,17 @@ import net.minestom.server.command.builder.arguments.ArgumentType;
 import net.minestom.server.command.builder.suggestion.SuggestionEntry;
 import net.minestom.server.entity.Player;
 
+/**
+ * Reload command for the CraftingStore
+ * store type
+ */
 public class LookupSub extends Command {
 
+    /**
+     * Command to lookup a user on
+     * your Tebex store
+     * @param handler {@link dev.expx.payments.stores.tebex.TebexHandler} Store class instance
+     */
     public LookupSub(TebexHandler handler) {
         super("lookup");
 

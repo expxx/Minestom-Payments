@@ -6,8 +6,17 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.minestom.server.command.builder.Command;
 
+/**
+ * Command to forcecheck for new purchases
+ * for the Tebex store type
+ */
 public class ForceSub extends Command {
 
+    /**
+     * Command to forcecheck for new payments
+     * for the Tebex store type
+     * @param handler {@link dev.expx.payments.stores.tebex.TebexHandler} Store class instance
+     */
     public ForceSub(TebexHandler handler) {
         super("forcecheck");
 

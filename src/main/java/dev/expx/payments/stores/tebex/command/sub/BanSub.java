@@ -1,6 +1,5 @@
 package dev.expx.payments.stores.tebex.command.sub;
 
-import com.sun.jdi.event.ThreadDeathEvent;
 import dev.expx.payments.exceptions.NotSetupException;
 import dev.expx.payments.stores.tebex.TebexHandler;
 import net.kyori.adventure.text.Component;
@@ -18,8 +17,17 @@ import org.slf4j.LoggerFactory;
 import java.net.InetSocketAddress;
 import java.util.concurrent.ExecutionException;
 
+/**
+ * Ban command for the Tebex
+ * store type
+ */
 public class BanSub extends Command {
 
+    /**
+     * Command to ban a user from
+     * the Tebex webstore
+     * @param handler {@link dev.expx.payments.stores.tebex.TebexHandler} Store class instance
+     */
     public BanSub(TebexHandler handler) {
         super("ban");
 
@@ -45,6 +53,7 @@ public class BanSub extends Command {
             } catch(InterruptedException | ExecutionException ex) {
                 s.sendMessage("An internal error has occurred. Please see console for more information.");
                 LoggerFactory.getLogger(BanSub.class).error("An error has occurred while trying to ban a player from the store: {}", ex.getMessage());
+                Thread.currentThread().interrupt();
             }
         }, playerArg, reason);
 

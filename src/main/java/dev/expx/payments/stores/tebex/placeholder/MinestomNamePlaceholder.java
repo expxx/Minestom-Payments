@@ -10,10 +10,19 @@ import net.minestom.server.utils.mojang.MojangUtils;
 
 import java.io.IOException;
 
+/**
+ * Used for the Tebex store platform
+ * to replace the {username} plaecholder
+ * in commands (I think)
+ */
 public class MinestomNamePlaceholder implements Placeholder {
 
     private final PlaceholderManager manager;
 
+    /**
+     * The initializer
+     * @param manager {@link io.tebex.sdk.placeholder.PlaceholderManager} The manager for placeholders
+     */
     public MinestomNamePlaceholder(PlaceholderManager manager) {
         this.manager = manager;
     }
