@@ -1,5 +1,6 @@
 package dev.expx.payments.stores.tebex.command.sub;
 
+import com.sun.jdi.event.ThreadDeathEvent;
 import dev.expx.payments.exceptions.NotSetupException;
 import dev.expx.payments.stores.tebex.TebexHandler;
 import net.kyori.adventure.text.Component;

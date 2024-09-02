@@ -40,7 +40,7 @@ public class PaymentHandler {
             }
             case CRAFTINGSTORE_STORE -> {
                 config = createConfig(configFile, getClass().getResourceAsStream("craftingstore.yml"));
-                new CraftingStoreHandler(config);
+                new CraftingStoreHandler().enable(config);
             }
             case AGORA_STORE -> throw new IllegalArgumentException("Agora is not currently supported, though is planned.");
             case MINESTORECMS_STORE -> throw new IllegalArgumentException("MineStoreCMS is not currently supported, though is planned.");

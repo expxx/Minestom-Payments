@@ -11,15 +11,16 @@ public class CraftingStoreHandler {
     private CraftingStore craftingStore;
     private static YamlDocument yamlDocument;
 
-    public CraftingStoreHandler(YamlDocument toSetConfig) {
-        yamlDocument = toSetConfig;
+    public CraftingStoreHandler() {
+    }
+
+    public void enable(YamlDocument config) {
+        yamlDocument = config;
+
+        this.craftingStore = new CraftingStore(new CSMinestomImpl());
 
         CommandManager commandManager = MinecraftServer.getCommandManager();
         commandManager.register(new CraftingStoreCommand(this));
-    }
-
-    public void enable() {
-        this.craftingStore = new CraftingStore(new CSMinestomImpl());
     }
 
     public CraftingStore getCraftingStore() {

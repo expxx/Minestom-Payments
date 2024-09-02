@@ -39,6 +39,8 @@ import java.util.logging.Level;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static net.minestom.server.MinecraftServer.VERSION_NAME;
+
 public class TebexHandler implements Platform {
 
     private static final ScheduledThreadPoolExecutor EXECUTOR = new ScheduledThreadPoolExecutor(4);
@@ -62,14 +64,11 @@ public class TebexHandler implements Platform {
     }
     public TebexHandler(ServerPlatformConfig config) {
         this.config = config;
-        {
-            try {
-                dataFolder = Files.createDirectory(Path.of("store")).toFile();
-            } catch (IOException e) {
-                throw new ConfigSaveException(e.getMessage());
-            }
+        try {
+            dataFolder = Files.createDirectory(Path.of("store")).toFile();
+        } catch (IOException e) {
+            throw new ConfigSaveException(e.getMessage());
         }
-
     }
 
     public void enable() {
@@ -233,7 +232,7 @@ public class TebexHandler implements Platform {
 
     @Override
     public String getVersion() {
-        return MinecraftServer.VERSION_NAME;
+        return VERSION_NAME;
     }
 
     @Override
@@ -274,7 +273,7 @@ public class TebexHandler implements Platform {
 
     @Override
     public PlatformTelemetry getTelemetry() {
-        String serverVersion = MinecraftServer.VERSION_NAME;
+        String serverVersion = VERSION_NAME;
 
         Pattern pattern = Pattern.compile("MC: (\\d+\\.\\d+\\.\\d+)");
         Matcher matcher = pattern.matcher(serverVersion);
