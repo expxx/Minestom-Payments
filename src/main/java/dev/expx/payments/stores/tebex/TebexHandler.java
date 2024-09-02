@@ -64,16 +64,6 @@ public class TebexHandler implements Platform {
     private List<ServerEvent> serverEvents;
 
     /**
-     * Don't allow regular initialization
-     * of this class
-     *
-     * @throws UnsupportedOperationException  Prevents initialization
-     */
-    public TebexHandler() throws UnsupportedOperationException {
-        throw new UnsupportedOperationException();
-    }
-
-    /**
      * Run init procedure for the Tebex store
      * @param passedDoc {@link dev.dejvokep.boostedyaml.YamlDocument} A config we can read
      * @param passedFolder The location to store everything related to the store
