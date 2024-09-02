@@ -1,5 +1,6 @@
 package dev.expx.payments.stores.tebex.command.sub;
 
+import dev.expx.payments.exceptions.NotSetupException;
 import dev.expx.payments.stores.tebex.TebexHandler;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -30,7 +31,7 @@ public class BanSub extends Command {
         Argument<String> reason = ArgumentType.String("reason").setDefaultValue("None Specified");
 
         addConditionalSyntax((s, str) -> s.hasPermission("minestom.store.ban"), (s, c) -> {
-            if(!handler.isSetup()) throw new RuntimeException("Plugin not setup.");
+            if(!handler.isSetup()) throw new NotSetupException("Plugin not setup.");
             try {
                 Player player = MinecraftServer.getConnectionManager().getOnlinePlayerByUsername(c.get(playerArg));
                 if(player == null) throw new ArgumentSyntaxException("Invalid Player", c.get(playerArg), 0);

@@ -1,5 +1,6 @@
 package dev.expx.payments.stores.tebex.command.sub;
 
+import dev.expx.payments.exceptions.NotSetupException;
 import dev.expx.payments.stores.tebex.TebexHandler;
 import net.kyori.adventure.text.Component;
 import net.minestom.server.MinecraftServer;
@@ -20,7 +21,7 @@ public class LookupSub extends Command {
                         b.addEntry(new SuggestionEntry(player.getUsername()));
                 });
         addConditionalSyntax((s, c) -> s.hasPermission("minestom.store.lookup"), (s, c) -> {
-            if(!handler.isSetup()) throw new RuntimeException("Plugin not setup.");
+            if(!handler.isSetup()) throw new NotSetupException("Plugin not setup.");
             String user = c.get(username);
             handler.getSDK().getPlayerLookupInfo(user).exceptionally(throwable -> {
                 s.sendMessage(Component.text("No information for that player could be found."));

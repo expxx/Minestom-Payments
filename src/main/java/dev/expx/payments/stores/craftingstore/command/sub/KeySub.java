@@ -1,5 +1,6 @@
 package dev.expx.payments.stores.craftingstore.command.sub;
 
+import dev.expx.payments.exceptions.APIKeyInvalidException;
 import dev.expx.payments.stores.craftingstore.CraftingStoreHandler;
 import net.kyori.adventure.text.Component;
 import net.minestom.server.command.builder.Command;
@@ -30,7 +31,7 @@ public class KeySub extends Command {
                     else
                         s.sendMessage(Component.text("The new API key is invalid. The plugin will not work until you set a valid key."));
                 } catch (InterruptedException | ExecutionException e) {
-                    throw new RuntimeException(e);
+                    throw new APIKeyInvalidException(e.getMessage());
                 }
             }).start();
         });

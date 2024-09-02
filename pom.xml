@@ -6,7 +6,7 @@
 
     <groupId>dev.expx.minestom</groupId>
     <artifactId>Payments</artifactId>
-    <version>1.1.5-ALPHA3.DEV8</version>
+    <version>1.2.0</version>
     <packaging>jar</packaging>
 
     <properties>

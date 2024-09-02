@@ -66,7 +66,7 @@ public class TebexHandler implements Platform {
             try {
                 dataFolder = Files.createDirectory(Path.of("store")).toFile();
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                throw new ConfigSaveException(e.getMessage());
             }
         }
 
@@ -150,8 +150,14 @@ public class TebexHandler implements Platform {
         return setup;
     }
 
+    /**
+     * Unused
+     * @param setup Whether plugin is setup or not
+     */
     @Override
-    public void setSetup(boolean setup) {}
+    public void setSetup(boolean setup) {
+        throw new UnsupportedOperationException();
+    }
 
     @Override
     public boolean isOnlineMode() {
