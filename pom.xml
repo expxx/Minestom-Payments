@@ -6,7 +6,7 @@
 
     <groupId>dev.expx.minestom</groupId>
     <artifactId>Payments</artifactId>
-    <version>1.2.0.SNAP2</version>
+    <version>1.2.2</version>
     <packaging>jar</packaging>
 
     <properties>
@@ -52,6 +52,7 @@
                                     <exclude>META-INF/*.RSA</exclude>
                                     <exclude>META-INF/LICENSE</exclude>
                                     <exclude>META-INF/LICENSE.txt</exclude>
+                                    <exclude>META-INF/MANIFEST.MF</exclude>
                                 </excludes>
                                 <includes>
                                     <include>io.tebex.sdk:*</include>

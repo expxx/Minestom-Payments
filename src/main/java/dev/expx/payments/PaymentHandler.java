@@ -27,7 +27,7 @@ public class PaymentHandler {
     /**
      * Config file
      */
-    private YamlDocument config;
+    private static YamlDocument config;
 
     /**
      * Logger this class will use
@@ -52,7 +52,7 @@ public class PaymentHandler {
      * @param type Type of store to launch (see {@link dev.expx.payments.StoreType})
      * @param configDir Location of where to store the config file
      */
-    public void init(StoreType type, Path configDir) {
+    public static void init(StoreType type, Path configDir) {
         try {
             if (!configDir.toFile().isDirectory()) Files.delete(configDir);
             if (!configDir.toFile().exists()) Files.createDirectory(configDir);
@@ -67,11 +67,11 @@ public class PaymentHandler {
 
         switch(type) {
             case TEBEX_STORE -> {
-                config = createConfig(configFile, getClass().getResourceAsStream("tebex.yml"));
+                config = createConfig(configFile, PaymentHandler.class.getResourceAsStream("tebex.yml"));
                 new TebexHandler().enable(config, Path.of("modules/store").toFile());
             }
             case CRAFTINGSTORE_STORE -> {
-                config = createConfig(configFile, getClass().getResourceAsStream("craftingstore.yml"));
+                config = createConfig(configFile, PaymentHandler.class.getResourceAsStream("craftingstore.yml"));
                 CraftingStoreHandler.enable(config);
             }
             case AGORA_STORE -> throw new NotYetImplementedException("Agora is not currently supported, though is planned.");
@@ -85,7 +85,7 @@ public class PaymentHandler {
      * @return {@link dev.dejvokep.boostedyaml.YamlDocument} The config in a way we can parse
      */
     public YamlDocument getConfig() {
-        return this.config;
+        return config;
     }
 
     /**
@@ -105,7 +105,7 @@ public class PaymentHandler {
      * @param stream Input file, if the config doesn't exist, make it off of this
      * @return {@link dev.dejvokep.boostedyaml.YamlDocument} The config in a way we can read
      */
-    protected YamlDocument createConfig(File file, InputStream stream) {
+    protected static YamlDocument createConfig(File file, InputStream stream) {
         try {
             return YamlDocument.create(
                     file,
