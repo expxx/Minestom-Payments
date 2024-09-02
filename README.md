@@ -1,7 +1,7 @@
 
 # Minestom Payments
 
-Minestom Payments is a quick and easy library to hook in with your webstore. Currently supports [Tebex](https://tebex.io) and [CraftingStore](https://craftingstore.net), with [Agora](https://agoramp.com) and [MineStoreCMS](https://minestorecms.net) planned.
+Minestom Payments is a quick and easy library to hook in with your webstore. Currently supports [Tebex](https://tebex.io) and [CraftingStore](https://craftingstore.net), with [Agora](https://agoramp.com) and [MineStoreCMS](https://minestorecms.com) planned.
 
 
 
