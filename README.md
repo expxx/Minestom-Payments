@@ -7,8 +7,6 @@ Minestom Payments is a quick and easy library to hook in with your webstore. Cur
 
 ## Badges
 
-Add badges from somewhere like: [shields.io](https://shields.io/)
-
 ![GitHub License](https://img.shields.io/github/license/expxx/Minestom-Payments?style=for-the-badge)
 
 ![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/expxx/Minestom-Payments/maven.yml?style=for-the-badge)
