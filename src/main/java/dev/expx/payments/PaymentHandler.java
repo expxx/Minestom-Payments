@@ -1,6 +1,12 @@
 package dev.expx.payments;
 
 import dev.dejvokep.boostedyaml.YamlDocument;
+import dev.dejvokep.boostedyaml.dvs.versioning.BasicVersioning;
+import dev.dejvokep.boostedyaml.settings.dumper.DumperSettings;
+import dev.dejvokep.boostedyaml.settings.general.GeneralSettings;
+import dev.dejvokep.boostedyaml.settings.loader.LoaderSettings;
+import dev.dejvokep.boostedyaml.settings.updater.UpdaterSettings;
+import dev.expx.payments.stores.craftingstore.CraftingStoreHandler;
 import dev.expx.payments.stores.tebex.TebexHandler;
 import io.tebex.sdk.platform.config.ServerPlatformConfig;
 import org.slf4j.Logger;
@@ -8,36 +14,60 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
+import java.util.Objects;
 
 public class PaymentHandler {
 
-    public static YamlDocument config;
-    private final Logger LOGGER = LoggerFactory.getLogger(PaymentHandler.class);
+    private YamlDocument config;
+    private final Logger logger = LoggerFactory.getLogger(PaymentHandler.class);
 
     public void init(StoreType type, Path configDir) {
         try {
-            if (!configDir.toFile().isDirectory()) Files.delete(configDir);
-            if (!configDir.toFile().exists()) Files.createDirectories(configDir);
+            try {
+                if (!configDir.toFile().isDirectory()) Files.delete(configDir);
+                if (!configDir.toFile().exists()) Files.createDirectory(configDir);
+            } catch(NoSuchFileException ex) { Files.createDirectory(configDir); }
         } catch(IOException ex) { ex.printStackTrace(); return; }
         File configFile = new File(configDir.toFile(), "config.yml");
-        try {
-            if(configFile.isDirectory()) Files.delete(configFile.toPath());
-            config = YamlDocument.create(configFile, this.getClass().getResourceAsStream("config.yml"));
-        } catch(IOException | NullPointerException ex) { ex.printStackTrace(); return; }
 
         switch(type) {
             case TEBEX_STORE -> {
-                ServerPlatformConfig platformConfig = new ServerPlatformConfig(0);
-                platformConfig.setYamlDocument(config);
-                new TebexHandler(platformConfig, configFile).enable();
+                config = createConfig(configFile, getClass().getResourceAsStream("tebex.yml"));
+                new TebexHandler(config, configFile).enable();
+            }
+            case CRAFTINGSTORE_STORE -> {
+                config = createConfig(configFile, getClass().getResourceAsStream("craftingstore.yml"));
+                new CraftingStoreHandler(config);
             }
             case AGORA_STORE -> throw new IllegalArgumentException("Agora is not currently supported, though is planned.");
-            case CRAFTINGSTORE_STORE -> {
-
-            }
+            case MINESTORECMS_STORE -> throw new IllegalArgumentException("MineStoreCMS is not currently supported, though is planned.");
         }
     }
 
+    public YamlDocument getConfig() {
+        return this.config;
+    }
+
+    public Logger getLogger() {
+        return logger;
+    }
+
+    protected YamlDocument createConfig(File file, InputStream stream) {
+        try {
+            return YamlDocument.create(
+                    file,
+                    stream,
+                    GeneralSettings.DEFAULT,
+                    LoaderSettings.builder().setAutoUpdate(true).build(),
+                    DumperSettings.DEFAULT,
+                    UpdaterSettings.builder().setVersioning(
+                            new BasicVersioning("config-version")
+                    ).build()
+            );
+        } catch(IOException ex) { ex.printStackTrace(); return null; }
+    }
 }
