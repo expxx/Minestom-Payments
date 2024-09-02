@@ -6,9 +6,9 @@ import dev.dejvokep.boostedyaml.settings.dumper.DumperSettings;
 import dev.dejvokep.boostedyaml.settings.general.GeneralSettings;
 import dev.dejvokep.boostedyaml.settings.loader.LoaderSettings;
 import dev.dejvokep.boostedyaml.settings.updater.UpdaterSettings;
+import dev.expx.payments.exceptions.ConfigSaveException;
 import dev.expx.payments.stores.craftingstore.CraftingStoreHandler;
 import dev.expx.payments.stores.tebex.TebexHandler;
-import io.tebex.sdk.platform.config.ServerPlatformConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,7 +18,6 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
-import java.util.Objects;
 
 public class PaymentHandler {
 
@@ -31,7 +30,7 @@ public class PaymentHandler {
                 if (!configDir.toFile().isDirectory()) Files.delete(configDir);
                 if (!configDir.toFile().exists()) Files.createDirectory(configDir);
             } catch(NoSuchFileException ex) { Files.createDirectory(configDir); }
-        } catch(IOException ex) { ex.printStackTrace(); return; }
+        } catch(IOException ex) { throw new ConfigSaveException("Unable to save config."); }
         File configFile = new File(configDir.toFile(), "config.yml");
 
         switch(type) {
@@ -68,6 +67,6 @@ public class PaymentHandler {
                             new BasicVersioning("config-version")
                     ).build()
             );
-        } catch(IOException ex) { ex.printStackTrace(); return null; }
+        } catch(IOException ex) { throw new ConfigSaveException("Unable to save config."); }
     }
 }

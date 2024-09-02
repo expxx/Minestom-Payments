@@ -15,9 +15,7 @@ public class KeySub extends Command {
         super("key");
 
         ArgumentString key = ArgumentType.String("key");
-        addConditionalSyntax((s, c) -> {
-            return s.hasPermission("minestom.store.key");
-        }, (s, c) -> {
+        addConditionalSyntax((s, c) -> s.hasPermission("minestom.store.key"), (s, c) -> {
             String value = c.get(key);
             CraftingStoreHandler.getConfig().set("api-key", value);
             try {

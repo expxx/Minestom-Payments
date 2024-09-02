@@ -1,6 +1,7 @@
 package dev.expx.payments.stores.tebex;
 
 import dev.dejvokep.boostedyaml.YamlDocument;
+import dev.expx.payments.exceptions.ConfigSaveException;
 import dev.expx.payments.stores.tebex.command.TebexCommand;
 import dev.expx.payments.stores.tebex.placeholder.MinestomNamePlaceholder;
 
@@ -21,7 +22,6 @@ import net.minestom.server.MinecraftServer;
 import net.minestom.server.command.CommandManager;
 import net.minestom.server.entity.Player;
 import net.minestom.server.extras.MojangAuth;
-import net.minestom.server.inventory.Inventory;
 import net.minestom.server.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
@@ -35,7 +35,6 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
-import java.util.function.Supplier;
 import java.util.logging.Level;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -152,9 +151,7 @@ public class TebexHandler implements Platform {
     }
 
     @Override
-    public void setSetup(boolean setup) {
-        setup = true;
-    }
+    public void setSetup(boolean setup) {}
 
     @Override
     public boolean isOnlineMode() {
@@ -202,7 +199,7 @@ public class TebexHandler implements Platform {
     @Override
     public void executeAsyncLater(Runnable runnable, long time, TimeUnit unit) {
         EXECUTOR.schedule(runnable, time, unit);
-    };
+    }
 
     @Override
     public void executeBlocking(Runnable runnable) {
@@ -296,30 +293,32 @@ public class TebexHandler implements Platform {
     }
 
 
-
-
     protected ServerPlatformConfig platformConfig(YamlDocument config) {
         ServerPlatformConfig serverPlatformConfig = new ServerPlatformConfig(config.getInt("config-version"));
         try {
             serverPlatformConfig.setYamlDocument(config);
 
-            if (config.getString("store.secret-key") == null) config.set("store.secret-key", "");
-            serverPlatformConfig.setSecretKey(config.getString("store.secret-key"));
+            final String secretKeyPath = "store.secret-key";
+            if (config.getString(secretKeyPath) == null) config.set(secretKeyPath, "");
+            serverPlatformConfig.setSecretKey(config.getString(secretKeyPath));
 
             serverPlatformConfig.setBuyCommandEnabled(false);
             serverPlatformConfig.setBuyCommandName("tbxbuy");
 
-            if (config.getString("extra.update-checker") == null) config.set("extra.update-checker", false);
-            serverPlatformConfig.setCheckForUpdates(config.getBoolean("extra.update-checker"));
+            final String updateCheckerPath = "extra.update-checker";
+            if (config.getString(updateCheckerPath) == null) config.set(updateCheckerPath, false);
+            serverPlatformConfig.setCheckForUpdates(config.getBoolean(updateCheckerPath));
 
-            if (config.getString("extra.debug") == null) config.set("extra.debug", false);
-            serverPlatformConfig.setVerbose(config.getBoolean("extra.debug"));
+            final String debugPath = "extra.debug";
+            if (config.getString(debugPath) == null) config.set(debugPath, false);
+            serverPlatformConfig.setVerbose(config.getBoolean(debugPath));
 
-            if (config.getString("extra.auto-report") == null) config.set("extra.auto-report", false);
-            serverPlatformConfig.setAutoReportEnabled(config.getBoolean("extra.auto-report"));
+            final String autoReportPath = "extra.auto-report";
+            if (config.getString(autoReportPath) == null) config.set(autoReportPath, false);
+            serverPlatformConfig.setAutoReportEnabled(config.getBoolean(autoReportPath));
 
             config.save();
-        } catch(IOException ex) { throw new RuntimeException("Unable to save config: " + ex.getMessage()); }
+        } catch(IOException ex) { throw new ConfigSaveException("Unable to save config: " + ex.getMessage()); }
         return serverPlatformConfig;
     }
 

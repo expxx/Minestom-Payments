@@ -9,9 +9,7 @@ public class ReloadSub extends Command {
     public ReloadSub(CraftingStoreHandler handler) {
         super("reload");
 
-        addConditionalSyntax((s, c) -> {
-            return s.hasPermission("minestom.store.reload");
-        }, (s, c) -> {
+        addConditionalSyntax((s, c) -> s.hasPermission("minestom.store.reload"), (s, c) -> {
             handler.getCraftingStore().reload();
             s.sendMessage(Component.text("CraftingStore is reloading"));
         });

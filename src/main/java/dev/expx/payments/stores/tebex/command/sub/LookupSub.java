@@ -19,9 +19,7 @@ public class LookupSub extends Command {
                     for(Player player : MinecraftServer.getConnectionManager().getOnlinePlayers())
                         b.addEntry(new SuggestionEntry(player.getUsername()));
                 });
-        addConditionalSyntax((s, c) -> {
-            return s.hasPermission("minestom.store.lookup");
-        }, (s, c) -> {
+        addConditionalSyntax((s, c) -> s.hasPermission("minestom.store.lookup"), (s, c) -> {
             if(!handler.isSetup()) throw new RuntimeException("Plugin not setup.");
             String user = c.get(username);
             handler.getSDK().getPlayerLookupInfo(user).exceptionally(throwable -> {

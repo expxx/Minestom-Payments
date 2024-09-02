@@ -42,7 +42,7 @@ public class BanSub extends Command {
                     s.sendMessage(Component.text(" Failed to ban player.", NamedTextColor.RED));
             } catch(InterruptedException | ExecutionException ex) {
                 s.sendMessage("An internal error has occurred. Please see console for more information.");
-                LoggerFactory.getLogger(BanSub.class).error("An error has occurred while trying to ban a player from the store: " + ex.getMessage());
+                LoggerFactory.getLogger(BanSub.class).error("An error has occurred while trying to ban a player from the store: {}", ex.getMessage());
             }
         }, playerArg, reason);
 

@@ -10,9 +10,7 @@ public class TebexCommand extends Command {
 
     public TebexCommand(TebexHandler handler) {
         super("tebex");
-        setDefaultExecutor((sender, context) -> {
-            sender.sendMessage("Hey from tebex!");
-        });
+        setDefaultExecutor((sender, context) -> sender.sendMessage("Hey from tebex!"));
 
         addSubcommand(new BanSub(handler));
         addSubcommand(new ForceSub(handler));
