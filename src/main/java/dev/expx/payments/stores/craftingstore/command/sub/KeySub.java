@@ -19,9 +19,9 @@ public class KeySub extends Command {
             return s.hasPermission("minestom.store.key");
         }, (s, c) -> {
             String value = c.get(key);
-            handler.getConfig().set("api-key", value);
+            CraftingStoreHandler.getConfig().set("api-key", value);
             try {
-                handler.getConfig().save();
+                CraftingStoreHandler.getConfig().save();
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
