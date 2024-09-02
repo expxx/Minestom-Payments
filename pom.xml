@@ -6,7 +6,7 @@
 
     <groupId>dev.expx.minestom</groupId>
     <artifactId>Payments</artifactId>
-    <version>1.2.2</version>
+    <version>1.2.3</version>
     <packaging>jar</packaging>
 
     <properties>
@@ -81,7 +81,7 @@
     <distributionManagement>
         <repository>
             <id>cams-utils-releases</id>
-            <url>https://repo.expx.dev/snapshots</url>
+            <url>https://repo.expx.dev/releases</url>
         </repository>
     </distributionManagement>
 

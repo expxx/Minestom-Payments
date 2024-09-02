@@ -30,7 +30,7 @@ Minestom Payments is a quick and easy library to hook in with your webstore. Cur
 <dependency>
     <groupId>dev.expx.minestom</groupId>
     <artifactId>Payments</artifactId>
-    <version>1.2.2</version>
+    <version>1.2.3</version>
 </dependency>
 ```
     
