@@ -1,0 +1,9 @@
+store:
+  secret-key: ""
+
+extra:
+  update-checker: false
+  debug: false
+  auto-report: false
+
+config-version: 1
