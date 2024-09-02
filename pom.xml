@@ -6,7 +6,7 @@
 
     <groupId>dev.expx.minestom</groupId>
     <artifactId>Payments</artifactId>
-    <version>1.0.2</version>
+    <version>1.1.5-ALPHA3.DEV8</version>
     <packaging>jar</packaging>
 
     <properties>
@@ -22,13 +22,6 @@
                 <artifactId>maven-shade-plugin</artifactId>
                 <version>3.6.0</version>
                 <configuration>
-                    <relocations>
-                        <relocation>
-                            <pattern>dev.dejvokep.boostedyaml</pattern>
-                            <!-- Replace this -->
-                            <shadedPattern>dev.expx.boosted-yaml</shadedPattern>
-                        </relocation>
-                    </relocations>
                     <createDependencyReducedPom>false</createDependencyReducedPom>
                 </configuration>
                 <executions>
@@ -48,10 +41,10 @@
                                     <exclude>META-INF/LICENSE.txt</exclude>
                                 </excludes>
                                 <includes>
-                                    <include>dev.expx:*</include>
-                                    <include>dev.dejvokep.boostedyaml:*</include>
                                     <include>io.tebex.sdk:*</include>
                                     <include>net.craftingstore.core:*</include>
+                                    <include>dev.dejvokep.boostedyaml:*</include>
+                                    <include>com.squareup.okhttp3:okhttp</include>
                                 </includes>
                             </artifactSet>
                         </configuration>
@@ -74,7 +67,7 @@
     <distributionManagement>
         <repository>
             <id>cams-utils-releases</id>
-            <url>https://repo.expx.dev/releases</url>
+            <url>https://repo.expx.dev/snapshots</url>
         </repository>
     </distributionManagement>
 
@@ -101,15 +94,9 @@
         <dependency>
             <groupId>net.craftingstore</groupId>
             <artifactId>core</artifactId>
-            <version>2.10.0-PATCH2-RELEASE</version>
+            <version>2.11.0-RELEASE</version>
         </dependency>
 
-
-        <dependency>
-            <groupId>org.json</groupId>
-            <artifactId>json</artifactId>
-            <version>20240303</version>
-        </dependency>
         <dependency>
             <groupId>dev.dejvokep</groupId>
             <artifactId>boosted-yaml</artifactId>
