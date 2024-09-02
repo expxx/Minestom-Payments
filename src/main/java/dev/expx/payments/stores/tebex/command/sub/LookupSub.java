@@ -38,7 +38,7 @@ public class LookupSub extends Command {
                     s.sendMessage(Component.text("Payments: " + info.payments.size()));
                 }
             });
-        });
+        }, username);
     }
 
 }
