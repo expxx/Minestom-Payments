@@ -7,8 +7,22 @@ on:
       - main
 
 jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+      - name: Run the Maven build
+        run: mvn clean install
+
   publish:
     runs-on: ubuntu-latest
+    concurrency:
+      cancel-in-progress: true
+      group: publish
     permissions:
       contents: write  # if you have a protection rule on your repository, you'll need to give write permission to the workflow.
     steps:
@@ -18,5 +32,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           javadoc-branch: javadoc
           java-version: 21
-          target-folder: jd
           project: maven
