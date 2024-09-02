@@ -6,7 +6,7 @@
 
     <groupId>dev.expx.minestom</groupId>
     <artifactId>Payments</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
     <packaging>jar</packaging>
 
     <properties>
@@ -101,7 +101,7 @@
         <dependency>
             <groupId>net.craftingstore</groupId>
             <artifactId>core</artifactId>
-            <version>2.10.0-RELEASE</version>
+            <version>2.10.0-PATCH1-RELEASE</version>
         </dependency>
 
         <dependency>
