@@ -1,5 +1,6 @@
 package dev.expx.payments.stores.tebex;
 
+import dev.dejvokep.boostedyaml.YamlDocument;
 import dev.expx.payments.stores.tebex.command.TebexCommand;
 import dev.expx.payments.stores.tebex.placeholder.MinestomNamePlaceholder;
 
@@ -17,10 +18,12 @@ import io.tebex.sdk.platform.config.ServerPlatformConfig;
 import io.tebex.sdk.request.response.ServerInformation;
 import io.tebex.sdk.util.CommandResult;
 import net.minestom.server.MinecraftServer;
+import net.minestom.server.command.CommandManager;
 import net.minestom.server.entity.Player;
 import net.minestom.server.extras.MojangAuth;
 import net.minestom.server.inventory.Inventory;
 import net.minestom.server.item.ItemStack;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -51,18 +54,18 @@ public class TebexHandler implements Platform {
     private ServerInformation storeInformation;
     private List<Category> storeCategories;
     private List<ServerEvent> serverEvents;
-    private Supplier<Inventory> buyGui;
     private final File dataFolder;
 
-    public TebexHandler(ServerPlatformConfig config, File dataFolder) {
-        this.config = config;
+    public TebexHandler(@NotNull YamlDocument config, File dataFolder) {
         this.dataFolder = dataFolder;
+        this.config = this.platformConfig(config);
+
     }
     public TebexHandler(ServerPlatformConfig config) {
         this.config = config;
         {
             try {
-                dataFolder = Files.createDirectory(Path.of("tebex")).toFile();
+                dataFolder = Files.createDirectory(Path.of("store")).toFile();
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -73,6 +76,8 @@ public class TebexHandler implements Platform {
     public void enable() {
         Tebex.init(this);
 
+        CommandManager commandManager = MinecraftServer.getCommandManager();
+        commandManager.register(new TebexCommand(this));
 
         this.sdk = new SDK(this, config.getSecretKey());
 
@@ -102,6 +107,7 @@ public class TebexHandler implements Platform {
                         return null;
                     });
         }, 0, 1, TimeUnit.MINUTES);
+        this.setup = true;
     }
 
     public ServerInformation getStoreInformation() {
@@ -134,17 +140,6 @@ public class TebexHandler implements Platform {
     public SDK getSDK() {
         return sdk;
     }
-
-    public Supplier<Inventory> getBuyGui() {
-        return buyGui;
-    }
-
-    public TebexHandler defaultCommands() {
-        var cm = MinecraftServer.getCommandManager();
-        cm.register(new TebexCommand(this));
-        return this;
-    }
-
 
     @Override
     public File getDirectory() {
@@ -299,4 +294,34 @@ public class TebexHandler implements Platform {
         var p = MinecraftServer.process().server();
         return p.getAddress() + ":" + p.getPort();
     }
+
+
+
+
+    protected ServerPlatformConfig platformConfig(YamlDocument config) {
+        ServerPlatformConfig serverPlatformConfig = new ServerPlatformConfig(config.getInt("config-version"));
+        try {
+            serverPlatformConfig.setYamlDocument(config);
+
+            if (config.getString("store.secret-key") == null) config.set("store.secret-key", "");
+            serverPlatformConfig.setSecretKey(config.getString("store.secret-key"));
+
+            serverPlatformConfig.setBuyCommandEnabled(false);
+            serverPlatformConfig.setBuyCommandName("tbxbuy");
+
+            if (config.getString("extra.update-checker") == null) config.set("extra.update-checker", false);
+            serverPlatformConfig.setCheckForUpdates(config.getBoolean("extra.update-checker"));
+
+            if (config.getString("extra.debug") == null) config.set("extra.debug", false);
+            serverPlatformConfig.setVerbose(config.getBoolean("extra.debug"));
+
+            if (config.getString("extra.auto-report") == null) config.set("extra.auto-report", false);
+            serverPlatformConfig.setAutoReportEnabled(config.getBoolean("extra.auto-report"));
+
+            config.save();
+        } catch(IOException ex) { throw new RuntimeException("Unable to save config: " + ex.getMessage()); }
+        return serverPlatformConfig;
+    }
+
+
 }
