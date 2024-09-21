@@ -17,7 +17,7 @@ Minestom Payments is a quick and easy library to hook in with your webstore. Cur
 
 
 ## Javadocs
-https://repo.expx.dev/javadoc/releases/dev/expx/minestom/Payments/<version>
+https://repo.expx.dev/javadoc/releases/dev/expx/minestom/Payments/{version}
 
 ## Installation
 
