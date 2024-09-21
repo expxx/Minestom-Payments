@@ -17,19 +17,3 @@ jobs:
           distribution: 'temurin'
       - name: Run the Maven build
         run: mvn clean install
-
-  publish:
-    runs-on: ubuntu-latest
-    concurrency:
-      cancel-in-progress: true
-      group: publish
-    permissions:
-      contents: write  # if you have a protection rule on your repository, you'll need to give write permission to the workflow.
-    steps:
-      - name: Deploy JavaDoc 🚀
-        uses: MathieuSoysal/Javadoc-publisher.yml@v2.5.0
-        with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          javadoc-branch: javadoc
-          java-version: 21
-          project: maven
